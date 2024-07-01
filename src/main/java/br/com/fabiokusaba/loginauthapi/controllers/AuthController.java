@@ -8,6 +8,7 @@ import br.com.fabiokusaba.loginauthapi.domain.user.User;
 import br.com.fabiokusaba.loginauthapi.dto.LoginRequestDTO;
 import br.com.fabiokusaba.loginauthapi.dto.RegisterRequestDTO;
 import br.com.fabiokusaba.loginauthapi.dto.ResponseDTO;
+import br.com.fabiokusaba.loginauthapi.exceptions.UserNotFoundException;
 import br.com.fabiokusaba.loginauthapi.infra.security.TokenService;
 import br.com.fabiokusaba.loginauthapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class AuthController {
 
         //Primeiro vamos tentar encontrar o usuário, vamos verificar se existe um usuário com esse email e caso eu não
         //encontre vou lançar uma exceção
-        User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new UserNotFoundException());
 
         //Se encontrarmos o usuário vamos salvar na nossa variável 'user' do tipo 'User' e vamos verificar se a senha
         //desse usuário é igual a senha que recebi por parâmetro
